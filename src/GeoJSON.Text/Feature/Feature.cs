@@ -49,7 +49,7 @@ namespace GeoJSON.Text.Feature
 
         [JsonPropertyName("type")]
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-        [JsonConverter(typeof(JsonStringEnumConverter))]
+        [JsonConverter(typeof(JsonStringEnumConverter<GeoJSONObjectType>))]
         public override GeoJSONObjectType Type => GeoJSONObjectType.Feature;
 
         [JsonPropertyName( "id")]
@@ -61,21 +61,15 @@ namespace GeoJSON.Text.Feature
             }
 #if NET5_0_OR_GREATER
             init
-            {
-                if (_idHasValue) throw new InvalidOperationException("Id property already set, is read only");
-
-                _id = value;
-                _idHasValue = true;
-            }
 #else
             set
+#endif
             {
                 if (_idHasValue) throw new InvalidOperationException("Id property already set, is read only");
 
                 _id = value;
                 _idHasValue = true;
             }
-#endif
         }
 
         [JsonPropertyName("geometry")]
@@ -87,21 +81,15 @@ namespace GeoJSON.Text.Feature
             }
 #if NET5_0_OR_GREATER
             init
-            {
-                if (_geometryHasValue) throw new InvalidOperationException("Geometry property already set, is read only");
-
-                _geometry = value;
-                _geometryHasValue = true;
-            }
 #else
             set
+#endif
             {
                 if (_geometryHasValue) throw new InvalidOperationException("Geometry property already set, is read only");
 
                 _geometry = value;
                 _geometryHasValue = true;
             }
-#endif
         }
 
         [JsonPropertyName("properties")]
@@ -112,21 +100,15 @@ namespace GeoJSON.Text.Feature
             }
 #if NET5_0_OR_GREATER
             init
-            {
-                if (_propertiesHasValue) throw new InvalidOperationException("Geometry property already set, is read only");
-
-                _properties = value;
-                _propertiesHasValue = true;
-            }
 #else
             set
+#endif
             {
                 if (_propertiesHasValue) throw new InvalidOperationException("Geometry property already set, is read only");
 
                 _properties = value;
                 _propertiesHasValue = true;
             }
-#endif
         }
 
         /// <summary>

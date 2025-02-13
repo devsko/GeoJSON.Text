@@ -12,7 +12,7 @@ namespace GeoJSON.Text.Converters
     /// <summary>
     /// Converter to read and write the <see cref="IReadOnlyCollection{IPosition}" /> type.
     /// </summary>
-    public class PositionEnumerableConverter : JsonConverter<IReadOnlyCollection<IPosition>>
+    public class PositionEnumerableConverter : JsonConverter<ReadOnlyCollection<IPosition>>
     {
         private static readonly PositionConverter PositionConverter = new();
 
@@ -38,7 +38,7 @@ namespace GeoJSON.Text.Converters
         /// <returns>
         ///     The object value.
         /// </returns>
-        public override IReadOnlyCollection<IPosition> Read(
+        public override ReadOnlyCollection<IPosition> Read(
             ref Utf8JsonReader reader,
             Type type,
             JsonSerializerOptions options)
@@ -81,7 +81,7 @@ namespace GeoJSON.Text.Converters
         /// <param name="serializer">The calling serializer.</param>
         public override void Write(
             Utf8JsonWriter writer,
-            IReadOnlyCollection<IPosition> coordinateElements,
+            ReadOnlyCollection<IPosition> coordinateElements,
             JsonSerializerOptions options)
         {
             writer.WriteStartArray();

@@ -15,7 +15,7 @@ namespace GeoJSON.Text.Converters
     /// <summary>
     /// Converter to read and write the <see cref="IEnumerable{MultiPolygon}" /> type.
     /// </summary>
-    public class PolygonEnumerableConverter : JsonConverter<IReadOnlyCollection<Polygon>>
+    public class PolygonEnumerableConverter : JsonConverter<ReadOnlyCollection<Polygon>>
     {
 
         private static readonly LineStringEnumerableConverter PolygonConverter = new LineStringEnumerableConverter();
@@ -41,7 +41,7 @@ namespace GeoJSON.Text.Converters
         /// <returns>
         ///     The object value.
         /// </returns>
-        public override IReadOnlyCollection<Polygon> Read(
+        public override ReadOnlyCollection<Polygon> Read(
             ref Utf8JsonReader reader,
             Type type,
             JsonSerializerOptions options)
@@ -85,7 +85,7 @@ namespace GeoJSON.Text.Converters
         /// <param name="serializer">The calling serializer.</param>
         public override void Write(
             Utf8JsonWriter writer,
-            IReadOnlyCollection<Polygon> value,
+            ReadOnlyCollection<Polygon> value,
             JsonSerializerOptions options)
         {
             writer.WriteStartArray();

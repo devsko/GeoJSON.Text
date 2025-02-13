@@ -13,7 +13,7 @@ namespace GeoJSON.Text.Converters
             JsonSerializerOptions options)
         {
             // Don't pass in options when recursively calling Deserialize.
-            var crsBaseClass = JsonSerializer.Deserialize<CRSBase>(ref reader);
+            var crsBaseClass = JsonSerializer.Deserialize(ref reader, GeoJSONContext.Default.CRSBase);
 
             if (crsBaseClass.Type == default)
                 throw new JsonException("Required property Type not set in the JSON");
@@ -31,7 +31,7 @@ namespace GeoJSON.Text.Converters
             JsonSerializerOptions options)
         {
             // Don't pass in options when recursively calling Serialize.
-            JsonSerializer.Serialize(writer, crsBaseClass);
+            JsonSerializer.Serialize(writer, crsBaseClass, GeoJSONContext.Default.CRSBase);
         }
     }
 }

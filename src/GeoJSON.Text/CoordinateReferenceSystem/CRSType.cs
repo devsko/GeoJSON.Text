@@ -1,6 +1,5 @@
 ﻿// Copyright © Joerg Battermann 2014, Matt Hunt 2017
 
-using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 
 namespace GeoJSON.Text.CoordinateReferenceSystem
@@ -17,19 +16,19 @@ namespace GeoJSON.Text.CoordinateReferenceSystem
         /// <summary>
         /// Defines a CRS type where the CRS cannot be assumed
         /// </summary>
-        [EnumMember(Value = "unspecified")]
+        [JsonStringEnumMemberName("unspecified")]
         Unspecified,
 
         /// <summary>
         /// Defines the Named CRS type.
         /// </summary>
-        [EnumMember(Value = "name")]
+        [JsonStringEnumMemberName("name")]
         Name,
 
         /// <summary>
         /// Defines the Linked CRS type.
         /// </summary>
-        [EnumMember(Value = "link")]
+        [JsonStringEnumMemberName("link")]
         Link
     }
 }

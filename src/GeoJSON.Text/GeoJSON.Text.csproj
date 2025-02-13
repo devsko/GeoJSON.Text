@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net6.0;net8.0;netstandard2.0</TargetFrameworks>
+		<TargetFrameworks>net8.0;netstandard2.0</TargetFrameworks>
 		<LangVersion>10</LangVersion>
 		<Description>.Net types for the GeoJSON RFC to be used with System.Text.Json</Description>
 		<Authors>Matt Hunt and Contributors</Authors>
@@ -22,6 +22,7 @@
 		<SignAssembly>true</SignAssembly>
 		<AssemblyOriginatorKeyFile>../key.snk</AssemblyOriginatorKeyFile>
 		<DelaySign>false</DelaySign>
+    <IsAotCompatible Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net7.0'))">true</IsAotCompatible>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
@@ -32,8 +33,8 @@
 		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
 	</ItemGroup>
 
-	<ItemGroup Condition="'$(TargetFramework)'== 'netstandard2.0'">
-		<PackageReference Include="System.Text.Json" Version="8.0.5" />
+	<ItemGroup>
+		<PackageReference Include="System.Text.Json" Version="9.0.2" />
 	</ItemGroup>
 
 </Project>

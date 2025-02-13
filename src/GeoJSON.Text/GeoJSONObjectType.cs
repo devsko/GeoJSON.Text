@@ -1,6 +1,6 @@
 ﻿// Copyright © Joerg Battermann 2014, Matt Hunt 2017
 
-using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 
 namespace GeoJSON.Text
 {
@@ -15,7 +15,7 @@ namespace GeoJSON.Text
         /// <remarks>
         /// See https://tools.ietf.org/html/rfc7946#section-3.1.2
         /// </remarks>
-        [EnumMember(Value = "Point")]
+        [JsonStringEnumMemberName("Point")]
         Point,
 
         /// <summary>
@@ -24,7 +24,7 @@ namespace GeoJSON.Text
         /// <remarks>
         /// See https://tools.ietf.org/html/rfc7946#section-3.1.3
         /// </remarks>
-        [EnumMember(Value = "MultiPoint")]
+        [JsonStringEnumMemberName("MultiPoint")]
         MultiPoint,
 
         /// <summary>
@@ -33,7 +33,7 @@ namespace GeoJSON.Text
         /// <remarks>
         /// See https://tools.ietf.org/html/rfc7946#section-3.1.4
         /// </remarks>
-        [EnumMember(Value = "LineString")]
+        [JsonStringEnumMemberName("LineString")]
         LineString,
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace GeoJSON.Text
         /// <remarks>
         /// See https://tools.ietf.org/html/rfc7946#section-3.1.5
         /// </remarks>
-        [EnumMember(Value = "MultiLineString")]
+        [JsonStringEnumMemberName("MultiLineString")]
         MultiLineString,
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace GeoJSON.Text
         /// <remarks>
         /// See https://tools.ietf.org/html/rfc7946#section-3.1.6
         /// </remarks>
-        [EnumMember(Value = "Polygon")]
+        [JsonStringEnumMemberName("Polygon")]
         Polygon,
 
         /// <summary>
@@ -60,7 +60,7 @@ namespace GeoJSON.Text
         /// <remarks>
         /// See https://tools.ietf.org/html/rfc7946#section-3.1.7
         /// </remarks>
-        [EnumMember(Value = "MultiPolygon")]
+        [JsonStringEnumMemberName("MultiPolygon")]
         MultiPolygon,
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace GeoJSON.Text
         /// <remarks>
         /// See https://tools.ietf.org/html/rfc7946#section-3.1.8
         /// </remarks>
-        [EnumMember(Value = "GeometryCollection")]
+        [JsonStringEnumMemberName("GeometryCollection")]
         GeometryCollection,
 
         /// <summary>
@@ -78,7 +78,7 @@ namespace GeoJSON.Text
         /// <remarks>
         /// See https://tools.ietf.org/html/rfc7946#section-3.2
         /// </remarks>
-        [EnumMember(Value = "Feature")]
+        [JsonStringEnumMemberName("Feature")]
         Feature,
 
         /// <summary>
@@ -87,7 +87,7 @@ namespace GeoJSON.Text
         /// <remarks>
         /// See https://tools.ietf.org/html/rfc7946#section-3.3
         /// </remarks>
-        [EnumMember(Value = "FeatureCollection")]
+        [JsonStringEnumMemberName("FeatureCollection")]
         FeatureCollection
     }
 }

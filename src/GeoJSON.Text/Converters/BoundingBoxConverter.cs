@@ -40,7 +40,7 @@ namespace GeoJSON.Text.Converters
             Type type,
             JsonSerializerOptions options)
         {
-            return JsonSerializer.Deserialize<double[]>(ref reader, options);
+            return JsonSerializer.Deserialize(ref reader, GeoJSONContext.Default.DoubleArray);
         }
 
         /// <summary>
@@ -55,7 +55,7 @@ namespace GeoJSON.Text.Converters
             JsonSerializerOptions options)
         {
             // Standard serialization
-            JsonSerializer.Serialize(writer, value, typeof(double[]), options);
+            JsonSerializer.Serialize(writer, value, GeoJSONContext.Default.DoubleArray);
         }
     }
 }

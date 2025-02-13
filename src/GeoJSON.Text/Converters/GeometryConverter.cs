@@ -85,21 +85,20 @@ namespace GeoJSON.Text.Converters
 
             switch (geoJsonType)
             {
-
                 case GeoJSONObjectType.Point:
-                    return value.Deserialize<Point>(options);
+                    return value.Deserialize(GeoJSONContext.Default.Point);
                 case GeoJSONObjectType.MultiPoint:
-                    return value.Deserialize<MultiPoint>(options);
+                    return value.Deserialize(GeoJSONContext.Default.MultiPoint);
                 case GeoJSONObjectType.LineString:
-                    return value.Deserialize<LineString>(options);
+                    return value.Deserialize(GeoJSONContext.Default.LineString);
                 case GeoJSONObjectType.MultiLineString:
-                    return value.Deserialize<MultiLineString>(options);
+                    return value.Deserialize(GeoJSONContext.Default.MultiLineString);
                 case GeoJSONObjectType.Polygon:
-                    return value.Deserialize<Polygon>(options);
+                    return value.Deserialize(GeoJSONContext.Default.Polygon);
                 case GeoJSONObjectType.MultiPolygon:
-                    return value.Deserialize<MultiPolygon>(options);
+                    return value.Deserialize(GeoJSONContext.Default.MultiPolygon);
                 case GeoJSONObjectType.GeometryCollection:
-                    return value.Deserialize<GeometryCollection>(options);
+                    return value.Deserialize(GeoJSONContext.Default.GeometryCollection);
                 case GeoJSONObjectType.Feature:
                 case GeoJSONObjectType.FeatureCollection:
                 default:
@@ -122,25 +121,25 @@ namespace GeoJSON.Text.Converters
             switch (value.Type)
             {
                 case GeoJSONObjectType.Point:
-                    JsonSerializer.Serialize<Point>(writer, (Point)value);
+                    JsonSerializer.Serialize(writer, (Point)value, GeoJSONContext.Default.Point);
                     break;
                 case GeoJSONObjectType.MultiPoint:
-                    JsonSerializer.Serialize<MultiPoint>(writer, (MultiPoint)value);
+                    JsonSerializer.Serialize(writer, (MultiPoint)value, GeoJSONContext.Default.MultiPoint);
                     break;
                 case GeoJSONObjectType.LineString:
-                    JsonSerializer.Serialize<LineString>(writer, (LineString)value);
+                    JsonSerializer.Serialize(writer, (LineString)value, GeoJSONContext.Default.LineString);
                     break;
                 case GeoJSONObjectType.MultiLineString:
-                    JsonSerializer.Serialize<MultiLineString>(writer, (MultiLineString)value);
+                    JsonSerializer.Serialize(writer, (MultiLineString)value, GeoJSONContext.Default.MultiLineString);
                     break;
                 case GeoJSONObjectType.Polygon:
-                    JsonSerializer.Serialize<Polygon>(writer, (Polygon)value);
+                    JsonSerializer.Serialize(writer, (Polygon)value, GeoJSONContext.Default.Polygon);
                     break;
                 case GeoJSONObjectType.MultiPolygon:
-                    JsonSerializer.Serialize<MultiPolygon>(writer, (MultiPolygon)value);
+                    JsonSerializer.Serialize(writer, (MultiPolygon)value, GeoJSONContext.Default.MultiPolygon);
                     break;
                 case GeoJSONObjectType.GeometryCollection:
-                    JsonSerializer.Serialize<GeometryCollection>(writer, (GeometryCollection)value);
+                    JsonSerializer.Serialize(writer, (GeometryCollection)value, GeoJSONContext.Default.GeometryCollection);
                     break;
                 case GeoJSONObjectType.Feature:
                 case GeoJSONObjectType.FeatureCollection:

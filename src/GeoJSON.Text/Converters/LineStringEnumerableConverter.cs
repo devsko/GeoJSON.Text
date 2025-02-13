@@ -12,7 +12,7 @@ namespace GeoJSON.Text.Converters
     /// <summary>
     /// Converter to read and write the <see cref="IReadOnlyCollection{LineString}" /> type.
     /// </summary>
-    public class LineStringEnumerableConverter : JsonConverter<IReadOnlyCollection<LineString>>
+    public class LineStringEnumerableConverter : JsonConverter<ReadOnlyCollection<LineString>>
     {
         private static readonly PositionEnumerableConverter LineStringConverter = new PositionEnumerableConverter();
 
@@ -38,7 +38,7 @@ namespace GeoJSON.Text.Converters
         /// <returns>
         /// The object value.
         /// </returns>
-        public override IReadOnlyCollection<LineString> Read(
+        public override ReadOnlyCollection<LineString> Read(
             ref Utf8JsonReader reader,
             Type type,
             JsonSerializerOptions options)
@@ -81,7 +81,7 @@ namespace GeoJSON.Text.Converters
         /// <param name="serializer">The calling serializer.</param>
         public override void Write(
             Utf8JsonWriter writer,
-            IReadOnlyCollection<LineString> value,
+            ReadOnlyCollection<LineString> value,
             JsonSerializerOptions options)
         {
             writer.WriteStartArray();

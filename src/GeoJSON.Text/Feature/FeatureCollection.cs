@@ -37,7 +37,7 @@ public class FeatureCollection : GeoJSONObject, IEqualityComparer<FeatureCollect
 
     [JsonPropertyName("type")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    [JsonConverter(typeof(JsonStringEnumConverter))]
+    [JsonConverter(typeof(JsonStringEnumConverter<GeoJSONObjectType>))]
     public override GeoJSONObjectType Type => GeoJSONObjectType.FeatureCollection;
 
     /// <summary>
@@ -156,7 +156,7 @@ public class FeatureCollection<TProps> : FeatureCollection, IEqualityComparer<Fe
 
     [JsonPropertyName("type")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    [JsonConverter(typeof(JsonStringEnumConverter))]
+    [JsonConverter(typeof(JsonStringEnumConverter<GeoJSONObjectType>))]
     public override GeoJSONObjectType Type => GeoJSONObjectType.FeatureCollection;
 
     /// <summary>

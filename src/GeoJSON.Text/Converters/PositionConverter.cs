@@ -44,7 +44,7 @@ namespace GeoJSON.Text.Converters
 
             try
             {
-                coordinates = JsonSerializer.Deserialize<double[]>(ref reader, options);
+                coordinates = JsonSerializer.Deserialize(ref reader, GeoJSONContext.Default.DoubleArray);
             }
             catch (Exception e)
             {
