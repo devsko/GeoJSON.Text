@@ -1,11 +1,10 @@
 ﻿// Copyright © Joerg Battermann 2014, Matt Hunt 2017
 
-using GeoJSON.Text.Geometry;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Text.Json.Serialization.Metadata;
+using GeoJSON.Text.Geometry;
 
 namespace GeoJSON.Text.Converters
 {
@@ -14,18 +13,6 @@ namespace GeoJSON.Text.Converters
     /// </summary>
     public class GeometryConverter : JsonConverter<IGeometryObject>
     {
-        /// <summary>
-        ///     Determines whether this instance can convert the specified object type.
-        /// </summary>
-        /// <param name="objectType">Type of the object.</param>
-        /// <returns>
-        ///     <c>true</c> if this instance can convert the specified object type; otherwise, <c>false</c>.
-        /// </returns>
-        public override bool CanConvert(Type objectType)
-        {
-            return typeof(IGeometryObject).IsAssignableFromType(objectType);
-        }
-
         /// <summary>
         ///     Reads the JSON representation of the object.
         /// </summary>
@@ -86,19 +73,19 @@ namespace GeoJSON.Text.Converters
             switch (geoJsonType)
             {
                 case GeoJSONObjectType.Point:
-                    return value.Deserialize(GeoJSONContext.Default.Point);
+                    return value.Deserialize((JsonTypeInfo<Point>)options.GetTypeInfo(typeof(Point)));
                 case GeoJSONObjectType.MultiPoint:
-                    return value.Deserialize(GeoJSONContext.Default.MultiPoint);
+                    return value.Deserialize((JsonTypeInfo<MultiPoint>)options.GetTypeInfo(typeof(MultiPoint)));
                 case GeoJSONObjectType.LineString:
-                    return value.Deserialize(GeoJSONContext.Default.LineString);
+                    return value.Deserialize((JsonTypeInfo<LineString>)options.GetTypeInfo(typeof(LineString)));
                 case GeoJSONObjectType.MultiLineString:
-                    return value.Deserialize(GeoJSONContext.Default.MultiLineString);
+                    return value.Deserialize((JsonTypeInfo<MultiLineString>)options.GetTypeInfo(typeof(MultiLineString)));
                 case GeoJSONObjectType.Polygon:
-                    return value.Deserialize(GeoJSONContext.Default.Polygon);
+                    return value.Deserialize((JsonTypeInfo<Polygon>)options.GetTypeInfo(typeof(Polygon)));
                 case GeoJSONObjectType.MultiPolygon:
-                    return value.Deserialize(GeoJSONContext.Default.MultiPolygon);
+                    return value.Deserialize((JsonTypeInfo<MultiPolygon>)options.GetTypeInfo(typeof(MultiPolygon)));
                 case GeoJSONObjectType.GeometryCollection:
-                    return value.Deserialize(GeoJSONContext.Default.GeometryCollection);
+                    return value.Deserialize((JsonTypeInfo<GeometryCollection>)options.GetTypeInfo(typeof(GeometryCollection)));
                 case GeoJSONObjectType.Feature:
                 case GeoJSONObjectType.FeatureCollection:
                 default:
@@ -121,25 +108,25 @@ namespace GeoJSON.Text.Converters
             switch (value.Type)
             {
                 case GeoJSONObjectType.Point:
-                    JsonSerializer.Serialize(writer, (Point)value, GeoJSONContext.Default.Point);
+                    JsonSerializer.Serialize(writer, (Point)value, (JsonTypeInfo<Point>)options.GetTypeInfo(typeof(Point)));
                     break;
                 case GeoJSONObjectType.MultiPoint:
-                    JsonSerializer.Serialize(writer, (MultiPoint)value, GeoJSONContext.Default.MultiPoint);
+                    JsonSerializer.Serialize(writer, (MultiPoint)value, (JsonTypeInfo<MultiPoint>)options.GetTypeInfo(typeof(MultiPoint)));
                     break;
                 case GeoJSONObjectType.LineString:
-                    JsonSerializer.Serialize(writer, (LineString)value, GeoJSONContext.Default.LineString);
+                    JsonSerializer.Serialize(writer, (LineString)value, (JsonTypeInfo<LineString>)options.GetTypeInfo(typeof(LineString)));
                     break;
                 case GeoJSONObjectType.MultiLineString:
-                    JsonSerializer.Serialize(writer, (MultiLineString)value, GeoJSONContext.Default.MultiLineString);
+                    JsonSerializer.Serialize(writer, (MultiLineString)value, (JsonTypeInfo<MultiLineString>)options.GetTypeInfo(typeof(MultiLineString)));
                     break;
                 case GeoJSONObjectType.Polygon:
-                    JsonSerializer.Serialize(writer, (Polygon)value, GeoJSONContext.Default.Polygon);
+                    JsonSerializer.Serialize(writer, (Polygon)value, (JsonTypeInfo<Polygon>)options.GetTypeInfo(typeof(Polygon)));
                     break;
                 case GeoJSONObjectType.MultiPolygon:
-                    JsonSerializer.Serialize(writer, (MultiPolygon)value, GeoJSONContext.Default.MultiPolygon);
+                    JsonSerializer.Serialize(writer, (MultiPolygon)value, (JsonTypeInfo<MultiPolygon>)options.GetTypeInfo(typeof(MultiPolygon)));
                     break;
                 case GeoJSONObjectType.GeometryCollection:
-                    JsonSerializer.Serialize(writer, (GeometryCollection)value, GeoJSONContext.Default.GeometryCollection);
+                    JsonSerializer.Serialize(writer, (GeometryCollection)value, (JsonTypeInfo<GeometryCollection>)options.GetTypeInfo(typeof(GeometryCollection)));
                     break;
                 case GeoJSONObjectType.Feature:
                 case GeoJSONObjectType.FeatureCollection:
@@ -147,6 +134,5 @@ namespace GeoJSON.Text.Converters
                     throw new NotSupportedException("Feature and FeatureCollection types are Feature objects and not Geometry objects");
             }
         }
-
     }
 }

@@ -187,7 +187,6 @@ namespace GeoJSON.Text.Tests.Geometry
                 Geometry = geometry;
             }
 
-            [JsonConverter(typeof(GeometryConverter))]
             public IGeometryObject Geometry { get; set; }
 
             /// <summary>

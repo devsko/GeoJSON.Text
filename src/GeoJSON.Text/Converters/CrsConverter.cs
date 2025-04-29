@@ -3,6 +3,7 @@
 using System;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Text.Json.Serialization.Metadata;
 using GeoJSON.Text.CoordinateReferenceSystem;
 
 namespace GeoJSON.Text.Converters
@@ -13,18 +14,6 @@ namespace GeoJSON.Text.Converters
     public class CrsConverter : JsonConverter<ICRSObject>
     {
         public override bool HandleNull => true;
-
-        /// <summary>
-        /// Determines whether this instance can convert the specified object type.
-        /// </summary>
-        /// <param name="objectType">Type of the object.</param>
-        /// <returns>
-        /// <c>true</c> if this instance can convert the specified object type; otherwise, <c>false</c>.
-        /// </returns>
-        public override bool CanConvert(Type objectType)
-        {
-            return typeof(ICRSObject).IsAssignableFromType(objectType);
-        }
 
         /// <summary>
         /// Reads the JSON representation of the object.
@@ -71,7 +60,7 @@ namespace GeoJSON.Text.Converters
                     var name = properties.GetProperty("name").GetString();
 
                     var target = new NamedCRS(name);
-                    var converted = jObject.Deserialize(GeoJSONContext.Default.NamedCRS);
+                    var converted = jObject.Deserialize((JsonTypeInfo<NamedCRS>)options.GetTypeInfo(typeof(NamedCRS)));
 
                     if (converted.Properties != null)
                     {
@@ -92,7 +81,7 @@ namespace GeoJSON.Text.Converters
 
                     var target = new LinkedCRS(href);
 
-                    var converted = jObject.Deserialize(GeoJSONContext.Default.LinkedCRS);
+                    var converted = jObject.Deserialize((JsonTypeInfo<LinkedCRS>)options.GetTypeInfo(typeof(LinkedCRS)));
 
                     if (converted.Properties != null)
                     {
@@ -127,10 +116,10 @@ namespace GeoJSON.Text.Converters
             switch (value.Type)
             {
                 case CRSType.Name:
-                    JsonSerializer.Serialize(writer, value, GeoJSONContext.Default.NamedCRS);
+                    JsonSerializer.Serialize(writer, value, (JsonTypeInfo<NamedCRS>)options.GetTypeInfo(typeof(NamedCRS)));
                     break;
                 case CRSType.Link:
-                    JsonSerializer.Serialize(writer, value, GeoJSONContext.Default.LinkedCRS);
+                    JsonSerializer.Serialize(writer, value, (JsonTypeInfo<LinkedCRS>)options.GetTypeInfo(typeof(LinkedCRS)));
                     break;
                 case CRSType.Unspecified:
                     writer.WriteNullValue();

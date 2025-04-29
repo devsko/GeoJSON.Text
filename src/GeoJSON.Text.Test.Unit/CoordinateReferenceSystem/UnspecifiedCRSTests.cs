@@ -22,8 +22,10 @@ namespace GeoJSON.Text.Tests.CoordinateReferenceSystem
             var collection = new FeatureCollection { CRS = new UnspecifiedCRS() };
             var expectedJson = "{\"type\":\"FeatureCollection\",\"crs\":null,\"features\":[] }";
             var actualJson = JsonSerializer.Serialize(collection);
+            var actualJson_sg = JsonSerializer.Serialize(collection, GeoJSONSerializerContext.Default.FeatureCollection);
             
             JsonAssert.AreEqual(expectedJson, actualJson);
+            JsonAssert.AreEqual(expectedJson, actualJson_sg);
         }
 
         [Test]
@@ -31,6 +33,7 @@ namespace GeoJSON.Text.Tests.CoordinateReferenceSystem
         {
             var json = "{\"type\":\"FeatureCollection\",\"crs\":null,\"features\":[] }";
             var featureCollection = JsonSerializer.Deserialize<FeatureCollection>(json);
+            var featureCollection_sg = JsonSerializer.Deserialize(json, GeoJSONSerializerContext.Default.FeatureCollection);
 
             Assert.IsInstanceOf<UnspecifiedCRS>(featureCollection.CRS);
         }

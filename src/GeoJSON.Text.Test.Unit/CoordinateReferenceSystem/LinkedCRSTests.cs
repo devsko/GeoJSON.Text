@@ -42,8 +42,10 @@ namespace GeoJSON.Text.Tests.CoordinateReferenceSystem
         {
             var collection = new Point(new Position(1, 2, 3)) { CRS = new LinkedCRS(Href) };
             var actualJson = JsonSerializer.Serialize(collection);
+            var actualJson_sg = JsonSerializer.Serialize(collection, GeoJSONSerializerContext.Default.Point);
 
             JsonAssert.Contains("{\"properties\":{\"href\":\"http://localhost\"},\"type\":\"link\"}", actualJson);
+            JsonAssert.Contains("{\"properties\":{\"href\":\"http://localhost\"},\"type\":\"link\"}", actualJson_sg);
         }
 
         [Test]
@@ -51,11 +53,16 @@ namespace GeoJSON.Text.Tests.CoordinateReferenceSystem
         {
             const string pointJson = "{\"type\":\"Point\",\"coordinates\":[2.0,1.0,3.0],\"crs\":{\"properties\":{\"href\":\"http://localhost\"},\"type\":\"link\"}}";
             var pointWithCRS = JsonSerializer.Deserialize<Point>(pointJson);
+            var pointWithCRS_sg = JsonSerializer.Deserialize(pointJson, GeoJSONSerializerContext.Default.Point);
             var linkCRS = pointWithCRS.CRS as LinkedCRS;
+            var linkCRS_sg = pointWithCRS_sg.CRS as LinkedCRS;
 
             Assert.IsNotNull(linkCRS);
+            Assert.IsNotNull(linkCRS_sg);
             Assert.AreEqual(CRSType.Link, linkCRS.Type);
+            Assert.AreEqual(CRSType.Link, linkCRS_sg.Type);
             Assert.AreEqual(Href, linkCRS.Properties["href"]);
+            Assert.AreEqual(Href, linkCRS_sg.Properties["href"]);
         }
 
         [Test]

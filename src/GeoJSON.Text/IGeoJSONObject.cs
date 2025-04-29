@@ -48,7 +48,7 @@ namespace GeoJSON.Text
         /// system of the GeoJSON object of which it is a member.
         /// </value>
         [JsonPropertyName("bbox")]
-        [JsonConverter(typeof(BoundingBoxConverter))]
+        //[JsonConverter(typeof(BoundingBoxConverter))]
         double[] BoundingBoxes { get; set; }
     }
 }

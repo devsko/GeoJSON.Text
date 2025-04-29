@@ -11,7 +11,7 @@ namespace GeoJSON.Text.CoordinateReferenceSystem
     /// <summary>
     /// Base class for all IGeometryObject implementing types
     /// </summary>
-    [JsonConverter(typeof(CRSBaseRequiredPropertyConverter))]
+    //[JsonConverter(typeof(CRSBaseRequiredPropertyConverter))]
     public abstract class CRSBase : IEqualityComparer<CRSBase>, IEquatable<CRSBase>
     {
         /// <summary>

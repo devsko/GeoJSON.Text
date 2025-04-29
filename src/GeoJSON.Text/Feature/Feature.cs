@@ -72,8 +72,21 @@ namespace GeoJSON.Text.Feature
             }
         }
 
+//        [JsonPropertyName("geometry")]
+//        [JsonConverter(typeof(GeometryConverter))]
+//        public IGeometryObject InternalGeometry
+//        {
+//            get => Geometry;
+//#if NET5_0_OR_GREATER
+//            init
+//#else
+//            set
+//#endif
+//                => Geometry = (TGeometry)value;
+//        }
+
+        //[JsonIgnore(Condition = JsonIgnoreCondition.Always)]
         [JsonPropertyName("geometry")]
-        [JsonConverter(typeof(GeometryConverter))]
         public TGeometry Geometry { 
             get
             {
@@ -182,11 +195,6 @@ namespace GeoJSON.Text.Feature
             : base(geometry, properties, id)
         {
         }
-
-        public Feature(IGeometryObject geometry, object properties, string id = null)
-            : base(geometry, properties, id)
-        {
-        }
     }
 
 
@@ -222,33 +230,6 @@ namespace GeoJSON.Text.Feature
         public Feature(IGeometryObject geometry, IDictionary<string, object> properties = null, string id = null)
         : base((TGeometry)geometry, properties ?? new Dictionary<string, object>(), id)
         {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Feature" /> class.
-        /// </summary>
-        /// <param name="geometry">The Geometry Object.</param>
-        /// <param name="properties">
-        /// Class used to fill feature properties. Any public member will be added to feature
-        /// properties
-        /// </param>
-        /// <param name="id">The (optional) identifier.</param>
-        public Feature(TGeometry geometry, object properties, string id = null)
-        : this(geometry, GetDictionaryOfPublicProperties(properties), id)
-        {
-        }
-
-
-        private static Dictionary<string, object> GetDictionaryOfPublicProperties(object properties)
-        {
-            if (properties == null)
-            {
-                return new Dictionary<string, object>();
-            }
-            return properties.GetType().GetTypeInfo().DeclaredProperties
-                .Where(propertyInfo => propertyInfo.GetMethod.IsPublic)
-                .ToDictionary(propertyInfo => propertyInfo.Name,
-                    propertyInfo => propertyInfo.GetValue(properties, null));
         }
 
         public bool Equals(Feature<TGeometry> other)

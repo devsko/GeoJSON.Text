@@ -70,11 +70,5 @@ namespace GeoJSON.Text.Converters
 
             throw new JsonException($"expected null, object or array token but received {reader.TokenType}");
         }
-
-        /// <inheritdoc />
-        public override bool CanConvert(Type objectType)
-        {
-            return objectType == typeof(ReadOnlyCollection<Point>);
-        }
     }
 }

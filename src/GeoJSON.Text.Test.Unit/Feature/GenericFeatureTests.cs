@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -9,7 +10,7 @@ using NUnit.Framework;
 namespace GeoJSON.Text.Tests.Feature
 {
     [TestFixture]
-    internal class GenericFeatureTests : TestBase
+    public partial class GenericFeatureTests : TestBase
     {
         [Test]
         public void Can_Deserialize_Point_Feature()
@@ -17,21 +18,33 @@ namespace GeoJSON.Text.Tests.Feature
             var json = GetExpectedJson();
 
             var feature = JsonSerializer.Deserialize<Feature<Point>>(json);
+            var feature_sg = JsonSerializer.Deserialize(json, GeoJSONSerializerContext.Default.FeaturePoint);
 
             Assert.IsNotNull(feature);
+            Assert.IsNotNull(feature_sg);
             Assert.IsNotNull(feature.Properties);
+            Assert.IsNotNull(feature_sg.Properties);
             Assert.IsTrue(feature.Properties.Any());
+            Assert.IsTrue(feature_sg.Properties.Any());
 
             Assert.IsTrue(feature.Properties.ContainsKey("name"));
+            Assert.IsTrue(feature_sg.Properties.ContainsKey("name"));
             string name = feature.Properties["name"].ToString();
+            string name_sg = feature_sg.Properties["name"].ToString();
             Assert.AreEqual("Dinagat Islands", name);
+            Assert.AreEqual("Dinagat Islands", name_sg);
 
             Assert.AreEqual("test-id", feature.Id);
+            Assert.AreEqual("test-id", feature_sg.Id);
 
             Assert.AreEqual(GeoJSONObjectType.Point, feature.Geometry.Type);
+            Assert.AreEqual(GeoJSONObjectType.Point, feature_sg.Geometry.Type);
             Assert.AreEqual(125.6, feature.Geometry.Coordinates.Longitude);
+            Assert.AreEqual(125.6, feature_sg.Geometry.Coordinates.Longitude);
             Assert.AreEqual(10.1, feature.Geometry.Coordinates.Latitude);
+            Assert.AreEqual(10.1, feature_sg.Geometry.Coordinates.Latitude);
             Assert.AreEqual(456, feature.Geometry.Coordinates.Altitude);
+            Assert.AreEqual(456, feature_sg.Geometry.Coordinates.Altitude);
         }
         [Test]
         public void Can_Deserialize_LineString_Feature()

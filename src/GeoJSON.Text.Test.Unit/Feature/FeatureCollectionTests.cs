@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
+using System.Text.Json.Serialization;
+using GeoJSON.Text.CoordinateReferenceSystem;
 using GeoJSON.Text.Feature;
 using GeoJSON.Text.Geometry;
 using NUnit.Framework;
@@ -9,7 +11,7 @@ using NUnit.Framework;
 namespace GeoJSON.Text.Tests.Feature;
 
 [TestFixture]
-public class FeatureCollectionTests : TestBase
+public partial class FeatureCollectionTests : TestBase
 {
     [Test]
     public void Ctor_Throws_ArgumentNullException_When_Features_Is_Null()
@@ -22,17 +24,24 @@ public class FeatureCollectionTests : TestBase
 
     [Test]
     public void Can_Deserialize()
-    {
+    {   
         string json = GetExpectedJson();
 
         var featureCollection = JsonSerializer.Deserialize<FeatureCollection>(json);
+        var featureCollection_sg = JsonSerializer.Deserialize(json, GeoJSONSerializerContext.Default.FeatureCollection);
 
         Assert.IsNotNull(featureCollection);
+        Assert.IsNotNull(featureCollection_sg);
         Assert.IsNotNull(featureCollection.Features);
+        Assert.IsNotNull(featureCollection_sg.Features);
         Assert.AreEqual(featureCollection.Features.Count, 3);
+        Assert.AreEqual(featureCollection_sg.Features.Count, 3);
         Assert.AreEqual(featureCollection.Features.Count(x => x.Geometry.Type == GeoJSONObjectType.Point), 1);
+        Assert.AreEqual(featureCollection_sg.Features.Count(x => x.Geometry.Type == GeoJSONObjectType.Point), 1);
         Assert.AreEqual(featureCollection.Features.Count(x => x.Geometry.Type == GeoJSONObjectType.MultiPolygon), 1);
+        Assert.AreEqual(featureCollection_sg.Features.Count(x => x.Geometry.Type == GeoJSONObjectType.MultiPolygon), 1);
         Assert.AreEqual(featureCollection.Features.Count(x => x.Geometry.Type == GeoJSONObjectType.Polygon), 1);
+        Assert.AreEqual(featureCollection_sg.Features.Count(x => x.Geometry.Type == GeoJSONObjectType.Polygon), 1);
     }
 
     [Test]
@@ -43,11 +52,19 @@ public class FeatureCollectionTests : TestBase
         var featureCollection =
             JsonSerializer.Deserialize<FeatureCollection<FeatureCollectionTestPropertyObject>>(json);
 
+        var featureCollection_sg =
+            JsonSerializer.Deserialize(json, FeatureCollectionTestsContext.Default.FeatureCollectionFeatureCollectionTestPropertyObject);
+
         Assert.IsNotNull(featureCollection);
+        Assert.IsNotNull(featureCollection_sg);
         Assert.IsNotNull(featureCollection.Features);
+        Assert.IsNotNull(featureCollection_sg.Features);
         Assert.AreEqual(featureCollection.Features.Count, 3);
+        Assert.AreEqual(featureCollection_sg.Features.Count, 3);
         Assert.AreEqual("DD", featureCollection.Features.First().Properties.name);
+        Assert.AreEqual("DD", featureCollection_sg.Features.First().Properties.name);
         Assert.AreEqual(123, featureCollection.Features.First().Properties.size);
+        Assert.AreEqual(123, featureCollection_sg.Features.First().Properties.size);
     }
 
     [Test]
@@ -73,10 +90,13 @@ public class FeatureCollectionTests : TestBase
         }
 
         var actualJson = JsonSerializer.Serialize(model);
+        var actualJson_sg = JsonSerializer.Serialize(model, FeatureCollectionTestsContext.Default.FeatureCollection);
 
         Assert.IsNotNull(actualJson);
+        Assert.IsNotNull(actualJson_sg);
 
         Assert.IsFalse(string.IsNullOrEmpty(actualJson));
+        Assert.IsFalse(string.IsNullOrEmpty(actualJson_sg));
     }
 
     [Test]
@@ -93,13 +113,19 @@ public class FeatureCollectionTests : TestBase
     {
         var leftFc = GetFeatureCollection();
         var leftJson = JsonSerializer.Serialize(leftFc);
+        var leftJson_sg = JsonSerializer.Serialize(leftFc, FeatureCollectionTestsContext.Default.FeatureCollection);
         var left = JsonSerializer.Deserialize<FeatureCollection>(leftJson);
+        var left_sg = JsonSerializer.Deserialize(leftJson, FeatureCollectionTestsContext.Default.FeatureCollection);
 
         var rightFc = GetFeatureCollection();
         var rightJson = JsonSerializer.Serialize(rightFc);
+        var rightJson_sg = JsonSerializer.Serialize(rightFc, FeatureCollectionTestsContext.Default.FeatureCollection);
         var right = JsonSerializer.Deserialize<FeatureCollection>(rightJson);
+        var right_sg = JsonSerializer.Deserialize<FeatureCollection>(rightJson, FeatureCollectionTestsContext.Default.FeatureCollection);
 
         Assert_Are_Equal(left, right);
+        Assert_Are_Equal(left_sg, right_sg);
+        Assert_Are_Equal(left, left_sg);
     }
 
     [Test]
@@ -190,5 +216,26 @@ public class FeatureCollectionTests : TestBase
     {
         public string name { get; set; }
         public int size { get; set; }
+    }
+
+    [JsonSerializable(typeof(NamedCRS))]
+    [JsonSerializable(typeof(LinkedCRS))]
+    [JsonSerializable(typeof(Feature<Point>))]
+    [JsonSerializable(typeof(Feature<MultiPoint>))]
+    [JsonSerializable(typeof(Feature<LineString>))]
+    [JsonSerializable(typeof(Feature<MultiLineString>))]
+    [JsonSerializable(typeof(Feature<Polygon>))]
+    [JsonSerializable(typeof(Feature<MultiPolygon>))]
+    [JsonSerializable(typeof(Feature<GeometryCollection>))]
+    [JsonSerializable(typeof(FeatureCollection))]
+    [JsonSerializable(typeof(IGeometryObject))]
+    [JsonSerializable(typeof(int))]
+    [JsonSerializable(typeof(bool))]
+    [JsonSerializable(typeof(DateTime))]
+    [JsonSerializable(typeof(TestFeatureEnum))]
+    [JsonSerializable(typeof(FeatureCollection))]
+    [JsonSerializable(typeof(FeatureCollection<FeatureCollectionTestPropertyObject>))]
+    private partial class FeatureCollectionTestsContext : JsonSerializerContext
+    {
     }
 }

@@ -15,8 +15,10 @@ namespace GeoJSON.Text.Tests.CoordinateReferenceSystem
             var collection = new FeatureCollection();
 
             var json = JsonSerializer.Serialize(collection);
+            var json_sg = JsonSerializer.Serialize(collection, GeoJSONSerializerContext.Default.FeatureCollection);
 
             Assert.IsTrue(!json.Contains("\"crs\""));
+            Assert.IsTrue(!json_sg.Contains("\"crs\""));
         }
 
         [Test]
@@ -25,8 +27,10 @@ namespace GeoJSON.Text.Tests.CoordinateReferenceSystem
             var json = "{\"coordinates\":[90.65464646,53.2455662,200.4567],\"type\":\"Point\"}";
              
             var point = JsonSerializer.Deserialize<Point>(json);
+            var point_sg = JsonSerializer.Deserialize(json, GeoJSONSerializerContext.Default.Point);
 
             Assert.IsNull(point.CRS);
+            Assert.IsNull(point_sg.CRS);
         }
 
         [Test]
@@ -35,9 +39,12 @@ namespace GeoJSON.Text.Tests.CoordinateReferenceSystem
             var json = "{\"coordinates\": [ 90.65464646, 53.2455662, 200.4567 ], \"type\": \"Point\", \"crs\": { \"type\": \"name\", \"properties\": { \"name\": \"urn:ogc:def:crs:OGC:1.3:CRS84\" }}}";
 
             var point = JsonSerializer.Deserialize<Point>(json);
+            var point_sg = JsonSerializer.Deserialize(json, GeoJSONSerializerContext.Default.Point);
 
             Assert.IsNotNull(point.CRS);
+            Assert.IsNotNull(point_sg.CRS);
             Assert.AreEqual(CRSType.Name, point.CRS.Type);
+            Assert.AreEqual(CRSType.Name, point_sg.CRS.Type);
         }
 
         [Test]
@@ -48,9 +55,12 @@ namespace GeoJSON.Text.Tests.CoordinateReferenceSystem
             var point = new Point(new Position(12.35, 34.57)) { CRS = new NamedCRS("TEST NAME") };
 
             var json = JsonSerializer.Serialize(point);
+            var json_sg = JsonSerializer.Serialize(point, GeoJSONSerializerContext.Default.Point);
 
             Assert.IsNotNull(json);
+            Assert.IsNotNull(json_sg);
             Assert.AreEqual(expected, json);
+            Assert.AreEqual(expected, json_sg);
         }
 
         [Test]
@@ -61,9 +71,12 @@ namespace GeoJSON.Text.Tests.CoordinateReferenceSystem
             var point = new Point(new Position(12.35, 34.57)) { CRS = new NamedCRS("urn:ogc:def:crs:OGC::CRS84") };
 
             var json = JsonSerializer.Serialize(point);
+            var json_sg = JsonSerializer.Serialize(point, GeoJSONSerializerContext.Default.Point);
 
             Assert.IsNotNull(json);
+            Assert.IsNotNull(json_sg);
             Assert.AreEqual(expected, json);
+            Assert.AreEqual(expected, json_sg);
         }
     }
 }

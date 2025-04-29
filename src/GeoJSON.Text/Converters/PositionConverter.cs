@@ -4,6 +4,7 @@ using GeoJSON.Text.Geometry;
 using System;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Text.Json.Serialization.Metadata;
 
 namespace GeoJSON.Text.Converters
 {
@@ -22,7 +23,7 @@ namespace GeoJSON.Text.Converters
         /// </returns>
         public override bool CanConvert(Type objectType)
         {
-            return typeof(IPosition).IsAssignableFromType(objectType);
+            return typeof(IPosition).IsAssignableFrom(objectType);
         }
 
         /// <summary>
@@ -44,12 +45,13 @@ namespace GeoJSON.Text.Converters
 
             try
             {
-                coordinates = JsonSerializer.Deserialize(ref reader, GeoJSONContext.Default.DoubleArray);
+                coordinates = JsonSerializer.Deserialize(ref reader, (JsonTypeInfo<double[]>)options.GetTypeInfo(typeof(double[])));
             }
             catch (Exception e)
             {
                 throw new JsonException("Error parsing coordinates", e);
             }
+            
             return coordinates?.ToPosition() ?? throw new JsonException("Coordinates cannot be null");
         }
 
